@@ -29,16 +29,30 @@ const developerName = "Qais Hamzeh";
 const navItems = ["About", "Skills", "Services", "Projects", "Contact"];
 
 const skills = [
-  "React",
-  "Next.js",
-  "Node.js",
-  "Python",
-  "Flutter",
-  "Firebase",
-  "Tailwind CSS",
-  "AI Tools",
-  "UI/UX Design",
-  "API Integrations",
+  {
+    title: "Frontend Experiences",
+    text: "React, Next.js, and cinematic interfaces that feel fast, modern, and expensive.",
+  },
+  {
+    title: "Backend Systems",
+    text: "Node.js, Python, APIs, and business logic built cleanly behind the scenes.",
+  },
+  {
+    title: "Mobile Interfaces",
+    text: "App-ready layouts and responsive flows shaped for smooth mobile-first usage.",
+  },
+  {
+    title: "AI Automation",
+    text: "Smart tools, AI integrations, and workflows that save time and unlock scale.",
+  },
+  {
+    title: "UI/UX Direction",
+    text: "Premium layouts, sharp visual hierarchy, and user journeys designed to convert.",
+  },
+  {
+    title: "Performance Craft",
+    text: "Fast-loading pages, polished interactions, and code that stays reliable.",
+  },
 ];
 
 const services = [
@@ -488,14 +502,14 @@ function Skills() {
     <section className="section-shell" id="skills">
       <SectionHeader
         eyebrow="Skills"
-        title="A modern stack for polished products."
-        text="From interface systems to backend APIs and intelligent automations, each layer is built with care."
+        title="Creative engineering with a premium finish."
+        text="I combine clean code, refined visuals, and practical automation to build digital products that look sharp and work beautifully."
       />
       <div className="skills-grid">
         {skills.map((skill, index) => (
           <motion.div
             className="skill-card"
-            key={skill}
+            key={skill.title}
             initial={{ opacity: 0, y: 26 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
@@ -503,7 +517,8 @@ function Skills() {
             whileHover={{ y: -8, scale: 1.02 }}
           >
             <Code2 size={20} />
-            <span>{skill}</span>
+            <span>{skill.title}</span>
+            <p>{skill.text}</p>
           </motion.div>
         ))}
       </div>
