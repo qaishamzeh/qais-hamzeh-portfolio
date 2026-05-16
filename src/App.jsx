@@ -612,8 +612,12 @@ function Projects() {
                 ))}
               </div>
               <div className="project-actions">
-                <a href={project.liveUrl || "#contact"}>
-                  {project.liveUrl ? "Live Demo" : "Request Demo"}
+                <a
+                  href={project.liveUrl || project.githubUrl}
+                  target={project.liveUrl ? "_blank" : "_blank"}
+                  rel="noreferrer"
+                >
+                  {project.liveUrl ? "Live Demo" : "View Project"}
                   <ArrowUpRight size={16} />
                 </a>
                 <a href={project.githubUrl} target="_blank" rel="noreferrer">
