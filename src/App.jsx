@@ -73,25 +73,29 @@ const services = [
 
 const projects = [
   {
-    title: "Nexa AI Console",
+    title: "Restaurant Website",
     description:
-      "A cinematic command center for AI automation workflows, analytics, and client reporting.",
-    tech: ["React", "Node.js", "AI APIs"],
-    variant: "console",
-  },
-  {
-    title: "Aurum Commerce",
-    description:
-      "Luxury e-commerce experience with product storytelling, fast checkout, and live inventory.",
-    tech: ["Next.js", "Firebase", "Stripe"],
+      "A modern restaurant web experience built to present the brand, menu, and atmosphere with a polished client-ready feel.",
+    tech: ["Website", "Responsive UI", "Brand Design"],
     variant: "commerce",
+    githubUrl: "https://github.com/qaishamzeh/resturant-project",
   },
   {
-    title: "Orbit Mobile App",
+    title: "Gym Website",
     description:
-      "A cross-platform mobile app interface for bookings, messaging, and real-time updates.",
-    tech: ["Flutter", "API", "UI/UX"],
+      "A fitness-focused website concept with strong visuals, clear service sections, and a layout designed to convert visitors into members.",
+    tech: ["Website", "Landing Page", "UI Design"],
+    variant: "console",
+    githubUrl: "https://github.com/qaishamzeh/gym-website",
+  },
+  {
+    title: "Qais Hamzeh Portfolio",
+    description:
+      "A cinematic personal portfolio for showcasing software development, websites, mobile apps, UI/UX, and AI integrations.",
+    tech: ["React", "Vite", "Framer Motion"],
     variant: "mobile",
+    liveUrl: "https://qais-hamzeh-portfolio.vercel.app",
+    githubUrl: "https://github.com/qaishamzeh/qais-hamzeh-portfolio",
   },
 ];
 
@@ -594,11 +598,11 @@ function Projects() {
                 ))}
               </div>
               <div className="project-actions">
-                <a href="#contact">
-                  Live Demo
+                <a href={project.liveUrl || "#contact"}>
+                  {project.liveUrl ? "Live Demo" : "Request Demo"}
                   <ArrowUpRight size={16} />
                 </a>
-                <a href="https://github.com/" target="_blank" rel="noreferrer">
+                <a href={project.githubUrl} target="_blank" rel="noreferrer">
                   GitHub
                   <Github size={16} />
                 </a>
