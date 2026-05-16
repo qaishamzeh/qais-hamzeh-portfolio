@@ -20,6 +20,9 @@ import {
   X,
 } from "lucide-react";
 import { motion, useInView, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import gymWebsiteImage from "./assets/projects/gym-website.png";
+import portfolioWebsiteImage from "./assets/projects/portfolio-website.png";
+import restaurantWebsiteImage from "./assets/projects/restaurant-website.png";
 
 const developerName = "Qais Hamzeh";
 
@@ -78,6 +81,7 @@ const projects = [
       "A modern restaurant web experience built to present the brand, menu, and atmosphere with a polished client-ready feel.",
     tech: ["Website", "Responsive UI", "Brand Design"],
     variant: "commerce",
+    image: restaurantWebsiteImage,
     githubUrl: "https://github.com/qaishamzeh/resturant-project",
   },
   {
@@ -86,6 +90,7 @@ const projects = [
       "A fitness-focused website concept with strong visuals, clear service sections, and a layout designed to convert visitors into members.",
     tech: ["Website", "Landing Page", "UI Design"],
     variant: "console",
+    image: gymWebsiteImage,
     githubUrl: "https://github.com/qaishamzeh/gym-website",
   },
   {
@@ -94,6 +99,7 @@ const projects = [
       "A cinematic personal portfolio for showcasing software development, websites, mobile apps, UI/UX, and AI integrations.",
     tech: ["React", "Vite", "Framer Motion"],
     variant: "mobile",
+    image: portfolioWebsiteImage,
     liveUrl: "https://qais-hamzeh-portfolio.vercel.app",
     githubUrl: "https://github.com/qaishamzeh/qais-hamzeh-portfolio",
   },
@@ -537,8 +543,16 @@ function Services() {
   );
 }
 
-function ProjectVisual({ variant }) {
+function ProjectVisual({ image, title, variant }) {
   const bars = useMemo(() => Array.from({ length: 8 }, (_, index) => index), []);
+
+  if (image) {
+    return (
+      <div className={`project-visual project-image ${variant}`}>
+        <img src={image} alt={`${title} project preview`} loading="lazy" />
+      </div>
+    );
+  }
 
   return (
     <div className={`project-visual ${variant}`} role="img" aria-label={`${variant} project image`}>
@@ -588,7 +602,7 @@ function Projects() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: index * 0.08 }}
           >
-            <ProjectVisual variant={project.variant} />
+            <ProjectVisual image={project.image} title={project.title} variant={project.variant} />
             <div className="project-content">
               <h3>{project.title}</h3>
               <p>{project.description}</p>
