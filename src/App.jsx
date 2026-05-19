@@ -878,11 +878,48 @@ function Footer() {
 }
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIntroDone(true), 1700);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <ParticleField />
       <MouseLight />
-      <div className="page-shell">
+      {!introDone ? (
+        <motion.div
+          className="intro-screen"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 0.8, delay: 0.9, ease: "easeInOut" }}
+          aria-hidden="true"
+        >
+          <motion.div
+            className="intro-mark"
+            initial={{ opacity: 0, scale: 0.92, filter: "blur(18px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <span>QH</span>
+            <strong>Qais Hamzeh</strong>
+          </motion.div>
+          <motion.div
+            className="intro-line"
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.18, ease: "easeInOut" }}
+          />
+        </motion.div>
+      ) : null}
+      <motion.div
+        className="page-shell"
+        initial={{ opacity: 0, y: 26, filter: "blur(14px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
+      >
         <Header />
         <main>
           <Hero />
@@ -894,7 +931,7 @@ export default function App() {
           <Contact />
         </main>
         <Footer />
-      </div>
+      </motion.div>
     </>
   );
 }
