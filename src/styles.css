@@ -345,9 +345,20 @@ a {
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
 }
 
+.hero-3d-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-3d-scene canvas {
+  display: block;
+}
+
 .visual-topbar,
 .project-browser {
   position: absolute;
+  z-index: 2;
   top: 22px;
   left: 22px;
   display: flex;
@@ -366,11 +377,12 @@ a {
 .metric-panel,
 .terminal-panel {
   position: absolute;
+  z-index: 2;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 22px;
-  background: rgba(3, 3, 5, 0.55);
+  background: rgba(3, 3, 5, 0.42);
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(12px);
 }
 
 .code-card {
@@ -454,6 +466,7 @@ a {
 
 .orbit-ring {
   position: absolute;
+  z-index: 1;
   right: 88px;
   bottom: 194px;
   width: 180px;

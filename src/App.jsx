@@ -19,7 +19,10 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { motion, useInView, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import { Float, MeshTransmissionMaterial, PerspectiveCamera, Stars } from "@react-three/drei";
+import * as THREE from "three";
 import gymWebsiteImage from "./assets/projects/gym-website.png";
 import portfolioWebsiteImage from "./assets/projects/portfolio-website.png";
 import restaurantWebsiteImage from "./assets/projects/restaurant-website.png";
@@ -370,6 +373,101 @@ function Header() {
   );
 }
 
+function HologramPanel({ position, rotation, scale, color = "#5eead4" }) {
+  const mesh = useRef(null);
+
+  useFrame(({ clock }) => {
+    if (!mesh.current) return;
+    mesh.current.rotation.z = rotation[2] + Math.sin(clock.elapsedTime * 0.55 + position[0]) * 0.06;
+    mesh.current.position.y = position[1] + Math.sin(clock.elapsedTime * 0.8 + position[2]) * 0.12;
+  });
+
+  return (
+    <Float speed={1.4} rotationIntensity={0.3} floatIntensity={0.35}>
+      <mesh ref={mesh} position={position} rotation={rotation} scale={scale}>
+        <boxGeometry args={[1.6, 1, 0.035]} />
+        <MeshTransmissionMaterial
+          backside
+          chromaticAberration={0.05}
+          color={color}
+          distortion={0.22}
+          ior={1.25}
+          opacity={0.64}
+          roughness={0.18}
+          thickness={0.28}
+          transmission={0.85}
+          transparent
+        />
+      </mesh>
+    </Float>
+  );
+}
+
+function Hero3DScene() {
+  const group = useRef(null);
+
+  useFrame(({ clock, pointer }) => {
+    if (!group.current) return;
+    group.current.rotation.y = pointer.x * 0.18 + Math.sin(clock.elapsedTime * 0.24) * 0.12;
+    group.current.rotation.x = -pointer.y * 0.08;
+  });
+
+  return (
+    <>
+      <PerspectiveCamera makeDefault position={[0, 0.15, 6]} fov={42} />
+      <color attach="background" args={["#020305"]} />
+      <fog attach="fog" args={["#020305", 5, 12]} />
+      <ambientLight intensity={0.45} />
+      <pointLight color="#5eead4" intensity={18} position={[-3.5, 2.4, 3.2]} />
+      <pointLight color="#f5c76b" intensity={14} position={[3.4, -1.6, 2.6]} />
+      <Stars count={900} depth={16} factor={2.4} fade radius={9} speed={0.45} />
+      <group ref={group}>
+        <mesh rotation={[1.18, 0, 0]} position={[0, -0.25, -0.5]}>
+          <torusGeometry args={[1.72, 0.018, 18, 160]} />
+          <meshStandardMaterial color="#5eead4" emissive="#5eead4" emissiveIntensity={1.6} />
+        </mesh>
+        <mesh rotation={[1.18, 0, Math.PI / 4]} position={[0, -0.25, -0.5]}>
+          <torusGeometry args={[2.22, 0.012, 18, 180]} />
+          <meshStandardMaterial color="#f5c76b" emissive="#f5c76b" emissiveIntensity={0.9} />
+        </mesh>
+        <HologramPanel
+          color="#5eead4"
+          position={[-1.25, 0.8, 0.05]}
+          rotation={[0.12, 0.34, -0.12]}
+          scale={[0.82, 0.82, 0.82]}
+        />
+        <HologramPanel
+          color="#f5c76b"
+          position={[1.28, -0.12, -0.3]}
+          rotation={[-0.08, -0.42, 0.12]}
+          scale={[0.7, 0.7, 0.7]}
+        />
+        <HologramPanel
+          color="#93c5fd"
+          position={[0.12, 1.48, -0.65]}
+          rotation={[0.2, -0.1, 0.02]}
+          scale={[0.52, 0.52, 0.52]}
+        />
+        <mesh position={[0.02, 0.25, 0.45]}>
+          <icosahedronGeometry args={[0.58, 2]} />
+          <meshStandardMaterial
+            color="#ffffff"
+            emissive="#5eead4"
+            emissiveIntensity={0.32}
+            metalness={0.72}
+            roughness={0.18}
+            wireframe
+          />
+        </mesh>
+        <mesh position={[0.02, 0.25, 0.45]} rotation={[0.25, 0.6, 0]}>
+          <icosahedronGeometry args={[0.62, 1]} />
+          <meshBasicMaterial color="#f5c76b" transparent opacity={0.12} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+    </>
+  );
+}
+
 function Hero() {
   const typed = useTypewriter(["AI Integrations", "Mobile Apps", "Web Platforms", "Clean Interfaces"]);
 
@@ -416,6 +514,11 @@ function Hero() {
           transition={{ duration: 0.9, delay: 0.12, ease: "easeOut" }}
           aria-label="Animated futuristic developer interface preview"
         >
+          <div className="hero-3d-scene" aria-hidden="true">
+            <Canvas dpr={[1, 1.7]} gl={{ antialias: true, alpha: false }}>
+              <Hero3DScene />
+            </Canvas>
+          </div>
           <div className="visual-topbar">
             <span />
             <span />
